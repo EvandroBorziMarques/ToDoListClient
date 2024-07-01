@@ -1,26 +1,38 @@
-<form [formGroup]="formulario">
 
+<h1>To Do List</h1>
+<form [formGroup]="formulario">
     @if (formulario.get('note').hasError('required') && formulario.get('note').touched) {
         <p class="alert alert-warning">O campo é obrigatório.</p>
     }
-    <input type="text" formControlName="note" placeholder="Note" class="form-control">
-    
-    <input type="button" value="Add" (click)="create(formulario)" class="btn btn-primary" [disabled]="formulario.invalid">
+    <table>
+        <tr>
+            <td class="td-note">
+                <input type="text" formControlName="note" placeholder="Note" class="form-control">
+            </td>
+            <td>
+                <input type="button" value="Add" (click)="create(formulario)" class="btn btn-primary" [disabled]="formulario.invalid">
+            </td>
+        </tr>
+    </table>    
 </form>
-
 <table class="table">
     <thead>
         <tr>
-            <th>Note</th>
-            <th>Concluded</th>
-            <th>Ação</th>
+            <th class="th-note">Note</th>
+            <th class="th-concluded">Concluded</th>
+            <th class="th-action"></th>
         </tr>
     </thead>
     <tbody>
         <tr *ngFor="let note of notes">
-            <td>{{note.note}}</td>
+            <td *ngIf="!note.concluded; else notesublinhado">{{note.note}}</td>
             <td><input class="form-check-input" type="checkbox" (click)="update(note.id, note.note, note.concluded)" [checked]="note.concluded" id="flexCheckDefault"></td>
-            <td><button class="btn btn-danger" (click)="delete(note.id)">Deletar</button></td>
+            <td><button class="btn btn-danger" (click)="delete(note.id)">Delete</button></td>
+            <ng-template #notesublinhado>
+                <td style="text-decoration: line-through;">{{note.note}}</td>
+            </ng-template>
         </tr>
     </tbody>
 </table>
+
+
