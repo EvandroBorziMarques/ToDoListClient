@@ -25,9 +25,14 @@ export class TodoListComponent {
   notes:Note[];
 
   async create(request:FormGroup){
-    await axios.post('https://localhost:7041/api/todo', request.value);
-    this.formulario.reset();
-    this.listAll();
+    try {
+      let json:Partial<Note> = request.value, concluded = false;
+      await axios.post('https://localhost:7041/api/todo', json);
+      this.formulario.reset();
+      this.listAll();
+    } catch (error) {
+      console.log(error);   
+    }    
   }
 
   async listAll(){ 
@@ -40,9 +45,13 @@ export class TodoListComponent {
   }
     
   async update(id:number, note:string, concluded:boolean){   
-    let json:Partial<Note> = {note, concluded: !concluded}
-    let response = await axios.put(`https://localhost:7041/api/todo/${id}`, json);
-    this.listAll();
+    try {
+      let json:Partial<Note> = {note, concluded: !concluded}
+      await axios.put(`https://localhost:7041/api/todo/${id}`, json);
+      this.listAll();
+    } catch (error) {
+      console.log(error); 
+    }    
   }
 
   async delete(id:number){

@@ -1,9 +1,6 @@
 
 <h1>To Do List</h1>
 <form [formGroup]="formulario">
-    @if (formulario.get('note').hasError('required') && formulario.get('note').touched) {
-        <p class="alert alert-warning">O campo é obrigatório.</p>
-    }
     <table>
         <tr>
             <td class="td-note">
